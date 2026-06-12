@@ -1,0 +1,27 @@
+name: CI - Build and Test
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build personal site image
+        run: docker build -t personal-site .
+      - name: Test run personal site
+        run: |
+          docker run -d -p 8080:80 --name test-site personal-site
+          sleep 3
+          curl --fail http://localhost:8080 | grep -i "number"
+          docker stop test-site && docker rm test-site
+      - name: Start both services with compose
+        run: docker compose up -d
+      - name: Verify todo app
+        run: |
+          sleep 5
+          curl --fail http://localhost:8081 || exit 1
+      - name: Shutdown
+        run: docker compose down

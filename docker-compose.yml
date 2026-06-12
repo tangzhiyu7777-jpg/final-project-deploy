@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  personal-site:
+    build: .
+    ports:
+      - "8080:80"
+    container_name: personal-website
+
+  todo-app:
+    image: miguelmota/todo-app
+    ports:
+      - "8081:5000"
+    container_name: todo-application
