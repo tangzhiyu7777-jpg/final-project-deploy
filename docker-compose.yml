@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   personal-site:
     build: .
@@ -8,7 +6,7 @@ services:
     container_name: personal-website
 
   todo-app:
-    image: miguelmota/todo-app
+    image: prologic/todo
     ports:
-      - "8081:5000"
+      - "8081:8000"
     container_name: todo-application
